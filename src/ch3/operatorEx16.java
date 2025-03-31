@@ -20,6 +20,10 @@ public class operatorEx16 {
         shortPi = (int)(pi * 100) / 100f;
         System.out.println(shortPi);
 
+
         //master 커밋할고얌
+
+        //git Doni2 브랜치 수정
+
     }
 }

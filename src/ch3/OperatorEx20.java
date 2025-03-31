@@ -7,5 +7,12 @@ public class OperatorEx20 {
         System.out.println(10%8); //2
         System.out.println(-10%8); //-2
         System.out.println(-10%-8); //-2
+        System.out.println(-10%-8); //-2
+        System.out.println(-10%-8); //-2
+        System.out.println(-10%-8); //-2
+        System.out.println(-10%-8); //-2
+        System.out.println(-10%-8); //-2
+        System.out.println(-10%-8); //-2 브랜치어쩌구
+
     }
 }

@@ -1,21 +1,26 @@
 package ch4;
+import java.util.Scanner;
 
 public class starEx4_ {
     public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
 
-        for(int i = 0; i < 3; i++) {
-            for(int j = 0; j < i%3; j++) {
-                System.out.print(" ");
+        System.out.println("홀수 정수 입력 > ");
+        String input = scanner.nextLine();
+        int num = Integer.parseInt(input);
+
+        System.out.println("입력한 정수 : " + num);
+
+        for (int i = 1; i <= num; i++) {
+            for(int j = 1; j<=num;j++) {
+                if(i + j == num+1 || i == j) {
+                    System.out.print('*');
+                }
+                else {
+                    System.out.print('_');
+                }
             }
-            System.out.print("*");
-            for(int j = 0 ; j < 3-2*i ; j++) {
-                System.out.print(" ");
-            }
-            if(i == 2) {
-                System.out.println();
-                break;
-            }
-            System.out.println("*");
+            System.out.println(); //줄바꿈
         }
 
     }

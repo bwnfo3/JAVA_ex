@@ -4,7 +4,7 @@ public class MemberCall {
     static int cv = 20;
 
     int iv2 = cv;
-    //static int cv2 = iv2;
+    //static int cv2 = iv;
     static int cv2 = new MemberCall().iv;
 
     static void staticMethod() {
@@ -12,6 +12,8 @@ public class MemberCall {
         //System.out.println(iv); //에러. 클래스메서드에서 인스턴스 변수 사용 불가
         MemberCall c = new MemberCall(); //객체를 생성한 후에 인스턴스 참조 가능
         System.out.println(c.iv);
+
+        //System.out.println(new MemberCall().iv);와 같음
     }
 
     void instatnceMethod() {

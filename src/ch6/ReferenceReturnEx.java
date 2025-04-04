@@ -8,6 +8,7 @@ public class ReferenceReturnEx {
         HairColor hc2 = colorCopy(hc);
         System.out.println("hc.color = " + hc.color);
         System.out.println("hc2.color = " + hc2.color);
+        //System.out.println(System.identityHashCode(hc2)); //hc2의 주소값(tmp의 주소값과 같음)
 
         hc.color = "blue";
         System.out.println("hc.color = " + hc.color);
@@ -16,7 +17,7 @@ public class ReferenceReturnEx {
     static HairColor colorCopy(HairColor hc) {
         HairColor tmp = new HairColor();
         tmp.color = hc.color;
-
+        //System.out.println(System.identityHashCode(tmp)); //tmp의 주소값
         return tmp;
     }
 }

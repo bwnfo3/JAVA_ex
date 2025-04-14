@@ -35,8 +35,10 @@ class MyTv2 {
     }
     //7_11
     int gotoPrevChannel() {
+        int tmp = 0;
+        tmp = this.channel;
         this.channel = prevChannel;
-        this.prevChannel = channel;
+        this.prevChannel = tmp;
         return channel;
     }
 }
@@ -47,6 +49,8 @@ public class Ex7_10 {
         t.setChannel(10);
         System.out.println(t.getChannel());
         t.setChannel(20);
+        System.out.println(t.getChannel());
+        t.gotoPrevChannel();
         System.out.println(t.getChannel());
         t.gotoPrevChannel();
         System.out.println(t.getChannel());

@@ -34,12 +34,10 @@ class MyTv2 {
         return volume;
     }
     //7_11
-    int gotoPrevChannel() {
-        int tmp = 0;
-        tmp = this.channel;
+    void gotoPrevChannel() {
+        int tmp = this.channel;
         this.channel = prevChannel;
         this.prevChannel = tmp;
-        return channel;
     }
 }
 public class Ex7_10 {

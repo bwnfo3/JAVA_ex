@@ -31,6 +31,18 @@ class Point {
 }
 class Circle extends Shape {
     double r;
+    /*
+
+    Circle (double r) {
+        //this.r = r;
+        this (new Point(0,0), r);
+    }
+
+    Circle (Point p, double r) {
+        super (p);
+        this.r = r;
+    }
+     */
     Circle() {
         this(0);
     }

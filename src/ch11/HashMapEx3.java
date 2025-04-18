@@ -16,7 +16,7 @@ class HashMapEx3 {
         printPhoneBook();
     }
     static void addPhoneNo(String groupName, String name, String tel) {
-        addGroup(groupName); //addGroup()에서 중복 검사 다 함
+        addGroup(groupName); //addGroup()에서 중복 검사 함
         HashMap group = (HashMap) phoneBook.get(groupName); //해당 그룹의 HashMap 가져옴
         group.put(tel, name);
     }
@@ -26,7 +26,7 @@ class HashMapEx3 {
         }
     }
     static void addPhoneNo(String name, String tel) {
-        addPhoneNo("기타", name, tel);
+        addPhoneNo("기타", name, tel); //그룹 지정 안 했을 경우에 기타로 저장
     }
 
     static void printPhoneBook() {
@@ -35,12 +35,14 @@ class HashMapEx3 {
 
         while(it.hasNext()) {
             Map.Entry entry = (Map.Entry)it.next();
-            Set groupSet = ((HashMap) entry.getValue()).entrySet();
+            Set groupSet = ((HashMap) entry.getValue()).entrySet(); //해당 그룹의 HashMap가져오기
             Iterator groupIt = groupSet.iterator();
-            System.out.println("===" + entry.getKey() +"(" +groupSet.size() + ")"+ "===");
+            System.out.println("===" + entry.getKey() +"(" +groupSet.size() + ")"+ "==="); //그룹
             while(groupIt.hasNext()) {
-                System.out.print(groupIt.next());
+                Map.Entry gEntry = (Map.Entry)groupIt.next();
+                System.out.println(gEntry.getValue() + " " + gEntry.getKey());
             }
+            System.out.println();
         }
     }
 }

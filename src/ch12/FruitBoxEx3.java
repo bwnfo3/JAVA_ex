@@ -9,10 +9,13 @@ class Juice {
     public String toString() { return name; }
 }
 class Juicer {
-//    static void makeJuice(FruitBox<? extends Fruit> box) {
-//        String tmp = "";
-//        for( Fruit f : box.getList() )
-//    }
+    static Juice makeJuice(FruitBox<? extends Fruit> box) {
+        String tmp = "";
+        for( Fruit f : box.getList() ) {
+            tmp += f + " ";
+        }
+        return new Juice(tmp);
+    }
 }
 public class FruitBoxEx3 {
     public static void main(String[] args) {
@@ -24,13 +27,15 @@ public class FruitBoxEx3 {
         appleBox.add(new Apple());
         appleBox.add(new Apple());
 
-        //System.out.println(Juicer.makeJuice(fruitBox));
+        System.out.println(Juicer.makeJuice(fruitBox));
+        System.out.println(Juicer.makeJuice(appleBox));
     }
 }
 class Box<T> {
-    ArrayList<T> list= new ArrayList<>();
+    ArrayList<T> list = new ArrayList<T>();
     void add(T item) { list.add(item); }
     T get(int i) { return list.get(i); }
+    ArrayList<T> getList() { return list;}
     int size() { return list.size(); }
     public String toString() { return list.toString(); }
 }

@@ -1,10 +1,11 @@
 package ch6;
 
 public class Ex6_19 {
-    public static void change(String str) {
+    public static String change(String str) {
         str += "456";
         System.out.println("change 내부 : " + str);
         System.out.println(System.identityHashCode(str));
+        return str;
     }
 
     public static void main(String[] args) {

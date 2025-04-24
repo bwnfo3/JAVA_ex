@@ -9,7 +9,8 @@ class Juice {
     public String toString() { return name; }
 }
 class Juicer {
-    static Juice makeJuice(FruitBox<? extends Fruit> box) {
+    static <T extends Fruit> Juice makeJuice(FruitBox<T> box) {
+    //static Juice makeJuice(FruitBox<? extends Fruit> box) {
         String tmp = "";
         for( Fruit f : box.getList() ) {
             tmp += f + " ";

@@ -4,7 +4,7 @@ import java.util.*;
 /* 덱 */
 class Deck {
     final static int CARD_COUNT = 52;
-    List<Card> CardList = new ArrayList<>();
+    private List<Card> CardList = new ArrayList<>();
     int count = 0;
     Deck() {
         int index = 0;
@@ -17,10 +17,22 @@ class Deck {
     //섞기
     public void shuffle() {
         for(int i = 0; i< CardList.size();i++) {
-            int tmp = (int)(Math.random() * CARD_COUNT) + 1;
-            Card tmpCard = CardList.get(tmp);
-
+            int tmp = (int)(Math.random() * CARD_COUNT);
+            Card tmpCard = (Card)CardList.get(tmp);
+            CardList.set(tmp, (Card)CardList.get(i));
+            CardList.set(i, tmpCard);
         }
+    }
+    //덱 출력 (초기화 잘 되었는지 테스트)
+    public String toString() {
+        String deckStr = "";
+        for(Card c : CardList)
+            deckStr += c.kind.name() + c.cardNum + ", ";
+
+        return deckStr;
+    }
+    public Card pick(int i) {
+        return (Card)CardList.get(i);
     }
 }
 /* 카드 */
@@ -43,7 +55,7 @@ class Card implements Comparator{
             return this.value;
         }
         static Kind of(int value) {
-            return kindArr[value +1];
+            return kindArr[value];
         }
     }
     //enum Number {}
@@ -70,7 +82,7 @@ class Card implements Comparator{
         else {
             return -1;
         }
-    };
+    }
 }
 
 /* 플레이어 */
@@ -79,7 +91,7 @@ class Player {
     private int playerMoney = 10000; //게임 머니(처음 값 : 10000)
     private int victory = 0; //승리 횟수
     private int roundScore = 0; //각 라운드 플레이어 패의
-    List<Card> cardList = new ArrayList<>(5); //각 라운드 카드 담을 배열 ? null로 고정
+    ArrayList<Card> playerCardSet = new ArrayList<>(5); //각 라운드 카드 담을 배열 ? null로 고정
 
     Player(String nickname) {
         this.nickname = nickname;
@@ -87,4 +99,5 @@ class Player {
 
     int getRoundScore(){ /* 각 라운드의 카드 점수 얻는 메서드 */ return roundScore;};
     void addVictory() { this.victory++; this.playerMoney ++;}
+    void setCard(int i, Card card) { playerCardSet.set(i, card);}
 }

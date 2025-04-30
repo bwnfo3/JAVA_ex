@@ -5,6 +5,7 @@ import java.io.*;
 class CardGame {
     static Scanner scanner = new Scanner(System.in);
     static TreeMap<String, Player> playerMap = new TreeMap<>(); //게임 참여 할 플레이어 리스트
+
     public static void main(String[] args) {
         while(true)  {
             switch(displayMenu()) {
@@ -18,19 +19,23 @@ class CardGame {
         }
     }
     static int displayMenu() {
+
+        putPlayerMap("aaa");
+        putPlayerMap("bbb");
+
         System.out.println("**********************");
         System.out.println("번호를 입력해주세요");
 
         int menu = 0;
-        while(true) {
+        System.out.println("1. 게임 시작하기");
+        System.out.println("2. Player 추가/삭제/수정");
+        //System.out.println("3. 프로그램 종료");
+        System.out.println("**********************");
+        do {
+            System.out.println("번호 입력(1,2) > ");
+            String input = scanner.nextLine().trim();
             try {
-                System.out.println("1. 게임 시작하기");
-                System.out.println("2. Player 추가/삭제/수정");
-                //System.out.println("3. 프로그램 종료");
-                System.out.println("**********************");
-                System.out.println("번호 입력 > ");
-                String input = scanner.nextLine();
-                int iptNum = Integer.parseInt(input); //-----------trim 생각해보기--------------
+                int iptNum = Integer.parseInt(input);
                 if( iptNum < 1 || iptNum > 2) { //메뉴에 없는 번호 입력했을 경우
                     throw new NumberFormatException();
                 }
@@ -46,19 +51,38 @@ class CardGame {
             } catch (Exception e) {
                 System.out.println("다른 오류 처리해야됨 !! ");
             }
-        }
+        } while(true);
 
         return menu;
     }
+
+    //gameStart() start
     static void gameStart(){
         System.out.println("gameStart! ! !");
+
+        Deck deck = new Deck();
+        //System.out.println(deck.toString());
+
+        deck.shuffle();
+        System.out.println(deck.toString());
+
+        for(int i = 0; i < playerMap.size() * 5; i++) {
+            for(String key : playerMap.keySet()){
+                Player player = (Player)playerMap.get(key);
+                for(int m = 0; m < player.playerCardSet.size(); m++) {
+                    player.setCard(m, deck.pick(i));
+                }
+                System.out.println(player.playerCardSet.toString());
+            }
+        }
+
         System.exit(0); //게임 종료
     }
+    //gameStart() end
+
+    //viewPlayer() start
     static void viewPlayer(){
         System.out.println("-- viewPlayer 시작--");
-
-        playerMap.put("Player1", new Player("Player1"));
-        playerMap.put("Player2", new Player("Player2"));
 
         if ( playerMap.size() == 0 || playerMap == null) {
             System.out.println("저장된 플레이어가 없습니다.");
@@ -66,27 +90,85 @@ class CardGame {
         else {
             System.out.println("**********저장된 플레이어**********");
             /* 스트림이나 iterlator 사용해서 출력 ! ! */
-//            for( Player p : playerMap ) {
-//                System.out.println(p.nickname);
-//            }
+            for (String key : playerMap.keySet()) {
+                String nickname = playerMap.get(key).nickname;
+                System.out.println(nickname);
+            }
         }
         System.out.println();
-        System.out.println("플레이어 추가할거임 ?");
+        System.out.println("1. Player 추가/삭제하기");
+        System.out.println("2. 메뉴로 돌아가기");
+        System.out.println("**********************");
 
-        System.exit(0);
-        /*
+        int menu = 0;
+        do {
+            System.out.println("번호 입력 > ");
+            String input = scanner.nextLine().trim();
+            try {
+                int iptNum = Integer.parseInt(input);
+                if( iptNum < 1 || iptNum > 2) { //메뉴에 없는 번호 입력했을 경우
+                    throw new NumberFormatException();
+                }
+                menu = iptNum;
+                break;
+            } catch (NumberFormatException e) { //숫자가 아닌 경우
+                System.out.println("잘못된 값을 입력했습니다. 다시 입력해주세요.");
+            } catch (Exception e) {
+                System.out.println("지정안 한 오류ㅜ 발생!!!!!!!!!!!!!!!!!!!!!!!");
+            }
 
-            1. 플레이어 추가할건지 / 삭제할건지 (playerMap 1명이면 안띄울까 ?) 
-                1.1 추가 ->1 , 삭제 -> 2 (예외 ..!!!!!)
-                1.2 playerMap 4명일경우 최대 4명만 된다고 고지 -> 삭제할건지? 아님 돌아갈건지
-            2. 플레이어 추가하는 경우 -> 닉네임 글자 20자, 공백, 특수문자 검사하기, 중복검사도
-            3. 플레이어 삭제
-         */
+        } while(true);
 
+        switch(menu) {
+            case 1 :
+                addPlayer();
+                break;
+            case 2 :
+                break;
+        }
 
-        //멤버 추가
-        
         //삭제
+    }
+    //PlayerView() end
+
+    static void addPlayer() {
+        if(playerMap.size() > 4) {
+            System.out.println("플레이어는 최대 4명까지 저장 가능합니다.");
+        }
+        System.out.println("플레이어의 닉네임을 입력해주세요.");
+        do {
+            System.out.println("닉네임 입력 > ");
+            String input = scanner.nextLine().trim();
+            try {
+                if( input.length() > 20) { //메뉴에 없는 번호 입력했을 경우
+                    throw new StringIndexOutOfBoundsException();
+                } else if( input.isEmpty() || input == null) {
+                    throw new NullPointerException(); //입력된 값이 없을 경우
+                }
+                putPlayerMap(input); //playerMap에 추가메서드 호출
+                break;
+            } catch (StringIndexOutOfBoundsException e) { //20자 이상일 경우
+                System.out.println("닉네임은 20자를 넘을 수 없습니다.");
+                System.out.println("다시 입력해주세요.");
+            } catch (IllegalArgumentException e) {
+                System.out.println("이미 존재하는 닉네임입니다.");
+                System.out.println("다시 입력해주세요.");
+            }
+            catch (NullPointerException e) {
+                System.out.println("값을 입력해주세요.");
+            }
+            catch (Exception e) {
+                System.out.println("지정안 한 오류ㅜ 발생!!!!!!!!!!!!!!!!!!!!!!!");
+            }
+        } while(true);
+
+        System.out.println("추가되었습니다.");
+    }
+    static void putPlayerMap(String nickname) {
+        if(playerMap.containsKey(nickname)) {
+            throw new IllegalArgumentException(); //중복된 닉네임이 있을경우 예외던지기
+        }
+        playerMap.put(nickname, new Player(nickname));
     }
 }
 

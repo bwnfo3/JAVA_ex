@@ -5,7 +5,6 @@ import java.util.*;
 class Deck {
     final static int CARD_COUNT = 52;
     private List<Card> CardList = new ArrayList<>();
-    int count = 0;
     Deck() {
         int index = 0;
         for(int i = 0; i < Card.KIND_NUM;i++) {
@@ -66,7 +65,9 @@ class Card implements Comparator{
         this.kind = kind;
         this.cardNum = cardNum;
     }
-
+    public String toString() {
+        return this.kind.name() + this.cardNum;
+    }
     public int compare(Object o1, Object o2) {
         //문양(오름차순) -> 숫자(내림차순)
         if(o1 instanceof Card && o2 instanceof Card) {
@@ -91,7 +92,8 @@ class Player {
     private int playerMoney = 10000; //게임 머니(처음 값 : 10000)
     private int victory = 0; //승리 횟수
     private int roundScore = 0; //각 라운드 플레이어 패의
-    ArrayList<Card> playerCardSet = new ArrayList<>(5); //각 라운드 카드 담을 배열 ? null로 고정
+    private ArrayList<Card> playerCardSet = new ArrayList<>(5); //각 라운드 카드 담을 배열 ? null로 고정
+    final static int CardSetCapacity = 5;
 
     Player(String nickname) {
         this.nickname = nickname;
@@ -99,5 +101,8 @@ class Player {
 
     int getRoundScore(){ /* 각 라운드의 카드 점수 얻는 메서드 */ return roundScore;};
     void addVictory() { this.victory++; this.playerMoney ++;}
-    void setCard(int i, Card card) { playerCardSet.set(i, card);}
+    void addCard(int i, Card card) { getPlayerCardList().add(i, card);}
+    ArrayList<Card> getPlayerCardList() {
+        return this.playerCardSet;
+    }
 }

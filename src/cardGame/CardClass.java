@@ -7,9 +7,9 @@ class Deck {
     private List<Card> CardList = new ArrayList<>();
     Deck() {
         int index = 0;
-        for(int i = 0; i < Card.KIND_NUM;i++) {
+        for(int i = Card.KIND_NUM; i > 0;i--) {
             for(int j = 0; j < Card.CARD_NUM;j++) {
-                CardList.add(new Card(Card.Kind.of(i),j +1));
+                CardList.add(new Card(Card.Kind.of(i-1),j +1));
             }
         }
     }
@@ -43,7 +43,7 @@ class Card implements Comparator{
     Kind kind;
     int cardNum;
     enum Kind {
-        SPADE(1), DIAMOND(2) , HEART(3), CLOVER(4);
+        SPADE(4), DIAMOND(3) , HEART(2), CLOVER(1);
 
         private int value;
         private static Kind[] kindArr = Kind.values();
@@ -69,16 +69,11 @@ class Card implements Comparator{
         return this.kind.name() + this.cardNum;
     }
     public int compare(Object o1, Object o2) {
-        //문양(오름차순) -> 숫자(내림차순)
+        //숫자 오름차순
         if(o1 instanceof Card && o2 instanceof Card) {
             Card c1 = (Card)o1;
             Card c2 = (Card)o2;
-            if(c1.kind.getValue() == c2.kind.getValue()) {
-                return c2.cardNum - c1.cardNum; //내림차순
-            }
-            else {
-                return c1.kind.getValue() - c2.kind.getValue();
-            }
+            return c1.cardNum - c2.cardNum;
         }
         else {
             return -1;
@@ -99,10 +94,10 @@ class Player {
         this.nickname = nickname;
     }
 
-    int getRoundScore(){ /* 각 라운드의 카드 점수 얻는 메서드 */ return roundScore;};
     void addVictory() { this.victory++; this.playerMoney ++;}
     void addCard(int i, Card card) { getPlayerCardList().add(i, card);}
     ArrayList<Card> getPlayerCardList() {
         return this.playerCardSet;
     }
+
 }

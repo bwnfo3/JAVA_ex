@@ -20,24 +20,27 @@ class CardGame {
             }
         }
     }
+
+    // 초기 메뉴를 보여주는 메서드
     static int displayMenu() {
         playerMap.put("aaa", new Player("aaa"));
         playerMap.put("bbb", new Player("bbb"));
 
         System.out.println("**********************");
         System.out.println("1. 게임 시작하기");
-        System.out.println("2. Player 추가/삭제/수정");
+        System.out.println("2. Player 보기/추가/삭제");
         System.out.println("3. 프로그램 종료");
         System.out.println("**********************");
 
         int menu = 0;
-        menu = MenuCheck(1,3);
+        menu = menuCheck(1,3);
 
         return menu;
     }
 
-    //메뉴에 없는 숫자 입력 + 숫자가 아닌 값 입력했을 경우 예외처리 메서드
-    static int MenuCheck(int initnum, int lastnum) {
+    //메뉴 입력 + 입력 받은 값 예외 처리
+    //menuCheck() start
+    static int menuCheck(int initnum, int lastnum) {
        int menuNum = 0;
         while(true) {
             System.out.println("번호 입력("+initnum +"~"+ lastnum+") > ");
@@ -57,10 +60,12 @@ class CardGame {
         }
         return menuNum;
     }
+    //menuCheck() end
 
+    //게임 시작하면 호출되는 메서드
     //gameStart() start
     static void gameStart(){
-        if(playerMap.size() < 2 || playerMap.isEmpty()) {
+        if(playerMap.size() < 2 || playerMap.isEmpty()) { //게임에 필요한 최소 플레이어 수 확인
             System.out.println("게임을 시작하려면 최소 2명이상의 플레이어가 필요합니다.");
             return;
         }
@@ -84,16 +89,48 @@ class CardGame {
                     player.addCard(i,pickCard);
                 }
                 index += 5;
+                System.out.println(tmpCardList);
+                Collections.sort(tmpCardList, new Comparator<Card>() {
+                            @Override
+                            public int compare(Card o1, Card o2) {
+                                return o1.cardNum - o2.cardNum;
+                            }
+                        }
+                );
+                System.out.println(tmpCardList);
             }
         } while (index < playerMap.size() * Player.CardSetCapacity);
-
         //끝
-
-
-
         return;
     }
     //gameStart() end
+
+    //getRoundScore() start
+    static boolean getRoundScore(ArrayList<Card> cardList) {
+        if(cardList.isEmpty() || cardList.size() == 0) {
+            System.out.println("카드 덱이 비었습니다.");
+            return false;
+        }
+
+        return true;
+    }
+    //getRoundScore() end
+
+    static boolean isFlush(ArrayList<Card> cardList) { //카드 5개가 모두 문양이 같은지
+        int cardKind = ((Card)cardList.get(0)).kind.getValue();
+        for(int i =1;i <cardList.size() -1;i++) {
+            if ( ((Card)cardList.get(i)).kind.getValue() != cardKind) {
+                return false;
+            }
+        }
+        return true;
+    }
+//
+//    static boolean isStraight(ArrayList<Card> cardList) {
+//        Collections.sort(cardList);
+//    }
+
+
 
     //editPlayer() start
     static void editPlayer(){
@@ -127,7 +164,7 @@ class CardGame {
         System.out.println();
 
         int menu = 0;
-        menu = MenuCheck(1,4);
+        menu = menuCheck(1,4);
 
         return menu;
     }
